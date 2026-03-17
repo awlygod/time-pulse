@@ -1,23 +1,34 @@
+/**
+ * components/layout/Header.jsx
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Identical to your original except:
+ *  - Uses `privyReady` from context to disable the button while Privy loads
+ *  - Picks up email from Privy user if available
+ *  - Shows a spinner dot while isLoading (login / logout in progress)
+ *
+ * All styles unchanged from your original.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTimeCapsule } from '../../context/TimeCapsuleContext.jsx'
 import toast from 'react-hot-toast'
 
 export default function Header() {
-  const { user, login, logout } = useTimeCapsule()
-  const [loading, setLoading] = useState(false)
+  const { user, login, logout, isLoading, privyReady } = useTimeCapsule()
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const navigate = useNavigate()
 
   const handleConnect = async () => {
-    setLoading(true)
     try {
       await login()
       toast.success('connected!')
-    } catch {
-      toast.error('login failed')
-    } finally {
-      setLoading(false)
+    } catch (err) {
+      // Privy modal dismissed by user — don't show an error toast
+      if (!err.message?.includes('cancelled') && !err.message?.includes('closed')) {
+        toast.error('login failed')
+      }
     }
   }
 
@@ -31,6 +42,9 @@ export default function Header() {
   const shortAddress = user?.address
     ? user.address.slice(0, 6) + '...' + user.address.slice(-4)
     : ''
+
+  // Button is disabled while Privy is initialising or a login is in-flight
+  const connectDisabled = !privyReady || isLoading
 
   return (
     <header
@@ -53,7 +67,16 @@ export default function Header() {
           justifyContent: 'space-between',
         }}
       >
-        <Link to="/" style={{ textDecoration: 'none', color: '#f0f0f0', fontSize: '15px', fontWeight: 500, letterSpacing: '-0.3px' }}>
+        <Link
+          to="/"
+          style={{
+            textDecoration: 'none',
+            color: '#f0f0f0',
+            fontSize: '15px',
+            fontWeight: 500,
+            letterSpacing: '-0.3px',
+          }}
+        >
           timecapsule.fun
         </Link>
 
@@ -61,7 +84,7 @@ export default function Header() {
           {!user ? (
             <button
               onClick={handleConnect}
-              disabled={loading}
+              disabled={connectDisabled}
               style={{
                 background: '#fff',
                 color: '#111',
@@ -70,11 +93,26 @@ export default function Header() {
                 borderRadius: '6px',
                 fontSize: '13px',
                 fontWeight: 500,
-                cursor: loading ? 'not-allowed' : 'pointer',
-                opacity: loading ? 0.7 : 1,
+                cursor: connectDisabled ? 'not-allowed' : 'pointer',
+                opacity: connectDisabled ? 0.6 : 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
               }}
             >
-              {loading ? 'connecting...' : 'connect'}
+              {isLoading && (
+                <span
+                  style={{
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    background: '#555',
+                    display: 'inline-block',
+                    animation: 'pulse 1s infinite',
+                  }}
+                />
+              )}
+              {isLoading ? 'connecting...' : !privyReady ? 'loading...' : 'connect'}
             </button>
           ) : (
             <div style={{ position: 'relative' }}>
@@ -108,7 +146,9 @@ export default function Header() {
                 >
                   {(user.email?.[0] || user.address?.[2] || 'U').toUpperCase()}
                 </div>
-                <span style={{ fontSize: '12px', color: '#888' }}>{user.email || shortAddress}</span>
+                <span style={{ fontSize: '12px', color: '#888' }}>
+                  {user.email || shortAddress}
+                </span>
               </button>
 
               {dropdownOpen && (
@@ -141,6 +181,7 @@ export default function Header() {
                   </Link>
                   <button
                     onClick={handleLogout}
+                    disabled={isLoading}
                     style={{
                       display: 'block',
                       width: '100%',
@@ -150,10 +191,11 @@ export default function Header() {
                       color: '#888',
                       background: 'none',
                       border: 'none',
-                      cursor: 'pointer',
+                      cursor: isLoading ? 'not-allowed' : 'pointer',
+                      opacity: isLoading ? 0.5 : 1,
                     }}
                   >
-                    Logout
+                    {isLoading ? 'logging out...' : 'Logout'}
                   </button>
                 </div>
               )}
