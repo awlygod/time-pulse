@@ -130,7 +130,7 @@ export default function Lock() {
         lock your purchase bonus
       </h2>
       <p style={{ fontSize: '13px', color: '#555', margin: '0 0 32px', lineHeight: 1.6 }}>
-        put 10% of your purchase into a yield pool. claim it back, plus earnings, after the lock period.
+        put 10% of your purchase into a yield pool. claim it back with earnings after the lock period.
       </p>
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -205,7 +205,7 @@ export default function Lock() {
               </div>
             </div>
             <div>
-              <div style={{ fontSize: '11px', color: '#4ade80', opacity: 0.6, marginBottom: '4px' }}>est. at 5% APY</div>
+              <div style={{ fontSize: '11px', color: '#4ade80', opacity: 0.6, marginBottom: '4px' }}>projected value · rate varies · demo only</div>
               <div style={{ fontSize: '18px', fontWeight: 500, color: '#4ade80' }}>
                 {(lockAmount * (1 + 0.05 * (parseInt(form.lockPeriod) / 12))).toFixed(2)} {form.asset}
               </div>
