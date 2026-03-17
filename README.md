@@ -1,16 +1,65 @@
-# React + Vite
+# timecapsule.fun
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A time-locked crypto gifting app built on Starknet. Lock funds, add a personal message and photo - the gift earns yield until the unlock date.
 
-Currently, two official plugins are available:
+Built for the [Starkzap Developer Challenge](https://github.com/keep-starknet-strange/starkzap).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What it does
 
-## React Compiler
+Lock ETH, USDC, or BTC until a future date (birthday, anniversary, graduation). The gift earns yield automatically while locked via the Starkzap SDK. On the unlock date, the recipient claims the original amount plus all accrued yield.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Unique features
 
-## Expanding the ESLint configuration
+**Wax Seal** — animated seal cracks open on unlock day
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Message Reveal** — personal message typewriters in character by character on unlock
+
+**Yield Milestones** — custom messages appear as yield hits 1%, 3%, 5% thresholds, making the gift feel alive while it grows
+
+**Contributor Constellation** — group gifters rendered as an interactive star map
+
+**Anticipation Counter** — recipients tap "I'm waiting" and the sender sees the count build
+
+## Tech stack
+
+React, Vite, Starkzap SDK, Starknet, TailwindCSS, daisyUI, day.js
+
+## Run locally
+
+```bash
+git clone https://github.com/your-username/timecapsule-fun
+cd timecapsule-fun
+npm install
+npm run dev
+```
+
+## Starkzap integration
+
+`login()` — social login via email or Google, no wallet popup required
+
+`createCapsule()` — locks funds and starts yield accrual on Starknet
+
+`getCapsuleBalance()` — live balance polled every 30 seconds
+
+`claimCapsule()` — gasless claim triggered on the unlock date
+
+`contributeToCapsule()` — group gifting contributions from multiple senders
+
+## Project structure
+
+```
+src/
+├── api/            Starkzap SDK integration (mock, swap for real)
+├── context/        Global auth and capsule state
+├── pages/          Home, Create, CapsuleView, Dashboard
+├── components/
+│   ├── capsule/    CountdownTimer, BalanceCard, WaxSeal, YieldMilestones
+│   ├── create/     MediaUpload, GroupGifting
+│   └── ui/         LoginModal, MessageReveal, Spinner
+├── hooks/          useCountdown
+└── utils/          localStorage helpers
+```
+
+## License
+
+MIT
