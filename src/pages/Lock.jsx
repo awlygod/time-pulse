@@ -130,7 +130,7 @@ export default function Lock() {
         lock your purchase bonus
       </h2>
       <p style={{ fontSize: '13px', color: '#555', margin: '0 0 32px', lineHeight: 1.6 }}>
-        put 10% of your purchase into a yield pool. claim it back — plus earnings — after the lock period.
+        put 10% of your purchase into a yield pool. claim it back, plus earnings, after the lock period.
       </p>
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>

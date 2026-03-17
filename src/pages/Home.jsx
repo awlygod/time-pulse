@@ -42,7 +42,7 @@ export default function Home() {
           lock value into<br />moments that matter.
         </h1>
         <p style={{ fontSize: '14px', color: '#555', lineHeight: 1.7, margin: '0 auto', maxWidth: '380px' }}>
-          lock crypto into a yield pool. it grows while you wait. claim it when the moment arrives — a birthday, an anniversary, or a reward you set for yourself.
+          lock crypto into a yield pool. it grows while you wait. claim it when the moment arrives: a birthday, an anniversary, or a reward you set for yourself.
         </p>
       </div>
 

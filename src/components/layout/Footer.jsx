@@ -15,7 +15,7 @@ export default function Footer() {
           marginBottom: '12px',
         }}
       >
-        {['about', 'faq', 'contact'].map((link) => (
+        {/* {['about', 'faq', 'contact'].map((link) => (
           <a
             key={link}
             href="#"
@@ -23,7 +23,7 @@ export default function Footer() {
           >
             {link}
           </a>
-        ))}
+        ))} */}
       </div>
       <p style={{ fontSize: '11px', color: '#333', margin: 0 }}>
         timecapsule.fun · built with love for the hackathon
