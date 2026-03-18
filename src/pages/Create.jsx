@@ -9,7 +9,7 @@ import Spinner from '../components/ui/Spinner'
 import { DEFAULT_MILESTONES } from '../components/capsule/YieldMilestones'
 import toast from 'react-hot-toast'
 
-const ASSETS = ['ETH', 'USDC', 'BTC']
+const ASSETS = ['ETH', 'STRK']
 
 const label = (text, sub) => (
   <div style={{ marginBottom: '8px' }}>
@@ -107,9 +107,10 @@ export default function Create() {
 
       toast.success('capsule created!')
       navigate(`/capsule/${capsuleId}`)
-    } catch {
-      toast.error('something went wrong')
-    } finally {
+    } catch (err) {
+      console.error('Create error:', err)
+      toast.error(err.message || 'something went wrong')
+    }finally {
       setLoading(false)
     }
   }

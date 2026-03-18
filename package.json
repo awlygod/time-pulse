@@ -9,11 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@privy-io/react-auth": "^3.17.0",
     "dayjs": "^1.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
-    "react-router-dom": "^6.22.0"
+    "react-router-dom": "^6.22.0",
+    "starknet": "^9.4.2",
+    "starkzap": "^1.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

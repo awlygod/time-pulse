@@ -16,7 +16,7 @@ import { useTimeCapsule } from '../../context/TimeCapsuleContext.jsx'
 import toast from 'react-hot-toast'
 
 export default function Header() {
-  const { user, login, logout, isLoading, privyReady } = useTimeCapsule()
+  const { user, login, logout, isLoading } = useTimeCapsule()
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const navigate = useNavigate()
 
@@ -25,10 +25,7 @@ export default function Header() {
       await login()
       toast.success('connected!')
     } catch (err) {
-      // Privy modal dismissed by user — don't show an error toast
-      if (!err.message?.includes('cancelled') && !err.message?.includes('closed')) {
-        toast.error('login failed')
-      }
+      toast.error('login failed')
     }
   }
 
@@ -43,8 +40,8 @@ export default function Header() {
     ? user.address.slice(0, 6) + '...' + user.address.slice(-4)
     : ''
 
-  // Button is disabled while Privy is initialising or a login is in-flight
-  const connectDisabled = !privyReady || isLoading
+  // Button is disabled while a login is in-flight
+  const connectDisabled = isLoading
 
   return (
     <header
@@ -112,7 +109,7 @@ export default function Header() {
                   }}
                 />
               )}
-              {isLoading ? 'connecting...' : !privyReady ? 'loading...' : 'connect'}
+              {isLoading ? 'connecting...' : 'connect'}
             </button>
           ) : (
             <div style={{ position: 'relative' }}>
